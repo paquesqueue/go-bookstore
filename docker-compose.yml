@@ -1,0 +1,15 @@
+version: '3.2'
+
+networks:
+  go-bookstore-network:
+
+services:
+  app:
+    image: go-bookstore:latest
+    environment:
+      PORT: 2565
+      DATABASE_URL: postgres://user:p@ssw0rd@dblocal/go-bookstore-db?sslmode=disable
+    ports:
+      - 2565:2565
+    networks:
+      - go-bookstore-network

@@ -1,0 +1,28 @@
+version: '3.2'
+
+networks:
+  api-integration-test:
+
+services:
+  it_tests:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    volumes:
+      - $PWD:/go/src/target
+    depends_on:
+      - db
+    networks:
+      - api-integration-test
+  db:
+    image: postgres:12.12
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: p@ssw0rd
+      POSTGRES_DB: go-bookstore-db
+    restart: on-failure
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+    networks:
+      - api-integration-test
+    
